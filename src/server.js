@@ -6,6 +6,17 @@ const cors = require('cors');
 
 const app = express();
 
+app.use(express.json()); // ? allows incoming reqs to be read in json format
+app.engine('hbs', hbs.engine);
+app.set('view engine', 'handlebars');
+app.set('views', './views');
+
+app.get('/login', async (req, res) => {
+    console.log('showing /login view');
+    res.render('login');
+});
+
+
 const connection = new Sequelize('sqlite::memory');
 console.log(
 	'checking DB connection...',
@@ -25,7 +36,6 @@ console.log(
 // };
 
 // app.use(cors(corsOpts));
-app.use(express.json()); // ? allows incoming reqs to be read in json format
 app.use(
 	express.urlencoded({
 		limit: '1mb',
